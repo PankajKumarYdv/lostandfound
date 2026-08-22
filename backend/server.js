@@ -68,7 +68,7 @@ app.use("/api/claims", require("./routes/claimRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/api/messages", require("./routes/messageRoutes"));
-app.get("/health", (req,res) => {
+app.get("/api/health", (req,res) => {
   res.send("Site is working"); 
 })
 
@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
 // =========================
 
 app.get("/", (req, res) => {
-  res.send("TrustTrace API with Real-time Chat is running...");
+  res.send("Findrly API with Real-time Chat is running...");
 });
 
 // =========================

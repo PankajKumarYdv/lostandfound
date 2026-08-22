@@ -30,7 +30,7 @@ const Navbar = () => {
           <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
             <Search size={18} className="text-white" />
           </div>
-          TrustTrace
+          Findrly
         </Link>
 
         <div className="flex items-center gap-6">

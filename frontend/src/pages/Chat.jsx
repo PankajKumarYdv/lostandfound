@@ -91,7 +91,7 @@ const Chat = () => {
           <ArrowLeft size={24} />
         </Link>
         <div>
-          <h2 className="text-xl font-bold text-white">TrustTrace Secure Chat</h2>
+          <h2 className="text-xl font-bold text-white">Findrly Secure Chat</h2>
           <p className="text-xs text-slate-400">End-to-End communication for Claim #{claimId.slice(-6)}</p>
         </div>
       </div>

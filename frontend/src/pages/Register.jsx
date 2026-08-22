@@ -45,7 +45,7 @@ const Register = () => {
           </div>
           <h2 className="text-3xl font-bold text-white">Create Account</h2>
           <p className="text-slate-400">
-            Join TrustTrace to claim or post items.
+            Join Findrly to claim or post items.
           </p>
         </div>
 

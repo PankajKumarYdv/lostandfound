@@ -43,7 +43,7 @@ const Login = () => {
             <LogIn className="text-blue-400" size={24} />
           </div>
           <h2 className="text-3xl font-bold text-white">Welcome Back</h2>
-          <p className="text-slate-400">Sign in to your TrustTrace account.</p>
+          <p className="text-slate-400">Sign in to your Findrly account.</p>
         </div>
 
         {error && (

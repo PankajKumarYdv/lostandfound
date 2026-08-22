@@ -31,7 +31,7 @@ const Home = () => {
           Return What You Found.
         </h1>
         <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
-          TrustTrace connects honest finders with rightful owners through a
+          Findrly connects honest finders with rightful owners through a
           secure, verified claim process. Build your honesty score today.
         </p>
       </div>
