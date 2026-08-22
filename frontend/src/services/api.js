@@ -2,7 +2,7 @@ import axios from "axios";
 
 // dotenv.config();
 
-const API_URI = "https://findrly.onrender.com/";
+const API_URI = "https://findrly.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URI,
