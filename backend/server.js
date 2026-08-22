@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-const FRONTEND_URL = "https://findrly.vercel.app/";
+const FRONTEND_URL = "https://findrly.vercel.app";
 
 // Setup Socket.IO
 const io = new Server(server, {
