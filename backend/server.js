@@ -1,4 +1,8 @@
 const express = require("express");
+
+const dns = require("dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -6,71 +10,133 @@ const morgan = require("morgan");
 const path = require("path");
 const http = require("http");
 const { Server } = require("socket.io");
+
 const connectDB = require("./config/db");
 
-// Load env vars
+// Load environment variables
 dotenv.config();
-
-// Connect to database
-connectDB();
 
 const app = express();
 const server = http.createServer(app);
 
-// Setup Socket.io
+// Setup Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "*", // allow all for dev
-    methods: ["GET", "POST"]
-  }
+    origin: "*", // Allow all origins during development
+    methods: ["GET", "POST"],
+  },
 });
 
+// =========================
 // Middlewares
+// =========================
+
 app.use(express.json());
+
 app.use(cors());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(helmet({ crossOriginResourcePolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false }));
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
 app.use(morgan("dev"));
 
+// Serve uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// =========================
 // Routes
+// =========================
+
 app.use("/api/auth", require("./routes/authRoutes"));
+
 app.use("/api/items", require("./routes/itemRoutes"));
+
 app.use("/api/claims", require("./routes/claimRoutes"));
+
 app.use("/api/users", require("./routes/userRoutes"));
+
 app.use("/api/messages", require("./routes/messageRoutes"));
 
-// Socket.io Connection Logic
-io.on("connection", (socket) => {
-  console.log("New client connected: ", socket.id);
+// =========================
+// Socket.IO
+// =========================
 
+io.on("connection", (socket) => {
+  console.log("New client connected:", socket.id);
+
+  // Join a specific claim chat room
   socket.on("join_claim_room", (claimId) => {
     socket.join(claimId);
-    console.log(`Socket ${socket.id} joined room ${claimId}`);
+
+    console.log(
+      `Socket ${socket.id} joined room ${claimId}`
+    );
   });
 
+  // Send message to users in the claim room
   socket.on("send_message", (data) => {
-    // data should look like { claimId, messageObj }
-    io.to(data.claimId).emit("receive_message", data.messageObj);
+    // Expected data:
+    // {
+    //   claimId,
+    //   messageObj
+    // }
+
+    io.to(data.claimId).emit(
+      "receive_message",
+      data.messageObj
+    );
   });
 
   socket.on("disconnect", () => {
-    console.log("Client disconnected: ", socket.id);
+    console.log("Client disconnected:", socket.id);
   });
 });
 
-// Root endpoint
+// =========================
+// Root Route
+// =========================
+
 app.get("/", (req, res) => {
   res.send("TrustTrace API with Real-time Chat is running...");
 });
 
-// Error handling middleware
+// =========================
+// Error Handling Middleware
+// =========================
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: err.message || "Server Error" });
+
+  res.status(500).json({
+    message: err.message || "Server Error",
+  });
 });
+
+// =========================
+// Start Server
+// =========================
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    // Connect to MongoDB first
+    await connectDB();
+
+    // Start server only if DB connection succeeds
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server.");
+
+    process.exit(1);
+  }
+};
+
+startServer();
