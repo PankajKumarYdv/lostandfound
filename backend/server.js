@@ -61,6 +61,9 @@ app.use("/api/claims", require("./routes/claimRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/api/messages", require("./routes/messageRoutes"));
+app.get("/health", (req,res) => {
+  res.send("Site is working"); 
+})
 
 // =========================
 // Socket.IO
