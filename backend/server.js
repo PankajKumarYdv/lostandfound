@@ -34,7 +34,9 @@ const io = new Server(server, {
 app.use(express.json());
 
 app.use(cors({
-  origin : 'https://your-frontend-project.vercel.app'
+  origin : 'https://your-frontend-project.vercel.app',
+  credentials: true, // Allow cookies/headers if needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
 app.use(
