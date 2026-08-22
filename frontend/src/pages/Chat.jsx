@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import { Send, Image as ImageIcon, ArrowLeft } from "lucide-react";
 
 // Initialize socket exactly once
-const socket = io("http://localhost:5000");
+const socket = io("https://findrly.onrender.com");
 
 const Chat = () => {
   const { claimId } = useParams();

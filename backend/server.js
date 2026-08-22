@@ -19,12 +19,15 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
+const FRONTEND_URL = "https://findrly.vercel.app/";
+
 // Setup Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins during development
+    origin: FRONTEND_URL,
     methods: ["GET", "POST"],
-  },
+    credentials: true
+  }
 });
 
 // =========================
@@ -34,9 +37,9 @@ const io = new Server(server, {
 app.use(express.json());
 
 app.use(cors({
-  origin : 'https://your-frontend-project.vercel.app',
-  credentials: true, // Allow cookies/headers if needed
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  origin: FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
 app.use(
