@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URI = "http://localhost:5000/api";
+// dotenv.config();
+
+const API_URI = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: API_URI,
